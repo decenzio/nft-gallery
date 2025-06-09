@@ -41,7 +41,7 @@ export const URLS = {
     seoCard: 'https://og-image-green-seven.vercel.app/',
     rubick: 'https://squid.subsquid.io/rubick/graphql',
     marck: 'https://ksm.gql.api.kodadot.xyz/',
-    stick: 'https://ahk.gql.api.kodadot.xyz/',
+    stick: 'http://localhost:4350/graphql',
     speck: 'https://ahp.gql.api.kodadot.xyz/',
     polkassembly: 'https://squid.subsquid.io/polkadot-polkassembly/graphql',
     replicate: 'https://replicate.kodadot.workers.dev/',

@@ -34,7 +34,12 @@
           }
         ]
       }
-    ]
+    ],
+    "paths": {
+      "@/*": ["./*"],
+      "@polkadot/api/augment": ["./interfaces/augment-api.ts"],
+      "@polkadot/types/augment": ["./interfaces/augment-types.ts"]
+    }
   },
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]
 }

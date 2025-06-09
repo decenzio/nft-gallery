@@ -6,10 +6,11 @@ type SquidEndpoint =
   | `${SquidUrl}/${Squid}/graphql`
   | `${SquidUrl}/${Squid}/v/${string}/graphql`
   | `https://${Prefix}.gql.api.kodadot.xyz/`
+  | `http://${string}`
 
 export const INDEXERS: Config<SquidEndpoint> = {
-  ksm: 'https://ahk.gql.api.kodadot.xyz/', // DEV: show KusamaHub
-  ahk: 'https://ahk.gql.api.kodadot.xyz/',
+  ksm: 'http://localhost:4350/graphql', // DEV: show KusamaHub
+  ahk: 'http://localhost:4350/graphql',
   ahp: 'https://ahp.gql.api.kodadot.xyz/',
   dot: 'https://ahp.gql.api.kodadot.xyz/', // DEV: show PolkadotHub
   base: 'https://kodadot.squids.live/basick/graphql',
