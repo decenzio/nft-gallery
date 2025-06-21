@@ -1,4 +1,5 @@
 import type { ApiPromise } from '@polkadot/api'
+import type { AnyNumber } from '@polkadot/types/types'
 import type { ActionMintToken, MintedCollection, TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
 import type {
@@ -23,9 +24,11 @@ interface BuildTokenTxsParams {
 
 const buildTokenTxs = ({ token, metadata, api }: BuildTokenTxsParams) => {
   const { accountId } = useAuth()
-  const collectionId = token.selectedCollection?.id
-  const { price, id: nextId, hasRoyalty, royalty } = token
-  const create = api.tx.nfts.mint(
+  const collectionId = token.selectedCollection?.id as AnyNumber
+  const { price, id: nextId, hasRoyalty, royalty, nftaa } = token
+
+  const palletBase = nftaa ? api.tx.nftaa : api.tx.nfts
+  const create = palletBase.mint(
     collectionId,
     nextId,
     accountId.value,
@@ -35,7 +38,7 @@ const buildTokenTxs = ({ token, metadata, api }: BuildTokenTxsParams) => {
 
   const list
     = Number(price) > 0
-      ? [api.tx.nfts.setPrice(collectionId, nextId, price, undefined)]
+      ? [api.tx.nfts.setPrice(collectionId, nextId, price as AnyNumber, null)]
       : []
   const txs = [create, meta, ...list]
 
@@ -45,7 +48,7 @@ const buildTokenTxs = ({ token, metadata, api }: BuildTokenTxsParams) => {
       nextId,
       'ItemOwner',
       'royalty',
-      royalty.amount,
+      royalty.amount.toString(),
     )
     const setRoyaltyRecipient = api.tx.nfts.setAttribute(
       collectionId,

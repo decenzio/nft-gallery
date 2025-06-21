@@ -1,6 +1,7 @@
 import { type Prefix } from '@kodadot1/static'
 import { useFiatStore } from '@/stores/fiat'
-import { defultTokenChain } from '@/utils/config/chain.config'
+import { defaultTokenChain } from '@/utils/config/chain.config'
+import type { Token } from '@/utils/coinprice'
 
 export interface TokenDetails {
   symbol: string
@@ -20,7 +21,7 @@ export default function useToken() {
   const availableTokensAcrossAllChains = computed(() =>
     getUniqueArrayItems(
       Object.values(getVmAssets(vm.value)).map(getAssetToken),
-    ),
+    ) as Token[],
   )
 
   const tokens = computed<TokenDetails[]>(() => {
@@ -29,7 +30,7 @@ export default function useToken() {
         symbol: tokenSymbol as string,
         value: getCurrentTokenValue(tokenSymbol),
         icon: getTokenIconBySymbol(tokenSymbol),
-        defaultChain: defultTokenChain[tokenSymbol],
+        defaultChain: defaultTokenChain[tokenSymbol],
       }
     })
   })

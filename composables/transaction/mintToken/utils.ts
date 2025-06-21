@@ -26,7 +26,9 @@ export const calculateFees = () => {
   const enabledFees: boolean
     = preferences.getHasSupport || preferences.getHasCarbonOffset
 
-  const kodaUSDFee = Number(preferences.getHasSupport ? BASE_FEE : 0)
+  const kodaUSDFee = urlPrefix.value === 'sub'
+    ? 0
+    : Number(preferences.getHasSupport ? BASE_FEE : 0)
   const carbonlessUSDFee = Number(preferences.getHasCarbonOffset ? BASE_FEE * 2 : 0)
 
   const feeMultiplier
@@ -54,7 +56,7 @@ export const transactionFactory = (getArgs) => {
     const nameInNotifications = getNameInNotifications(item)
 
     executeTransaction({
-      cb: api.tx.utility.batchAll,
+      cb: api.tx.palletUtility.batchAll,
       arg: args,
       successMessage:
         item.successMessage

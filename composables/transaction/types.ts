@@ -107,6 +107,7 @@ export type MintedCollection = {
 export type TokenToMint = BaseTokenType<MintedCollection> & {
   tags: Attribute[]
   nsfw: boolean
+  nftaa: boolean
   postfix: boolean
   price?: string | number
   royalty?: Royalty
