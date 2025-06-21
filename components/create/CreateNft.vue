@@ -221,6 +221,17 @@
         />
       </NeoField>
 
+      <!-- NFT as an Account -->
+      <NeoField :label="`${$t('mint.nftaa')}`">
+        <div class="w-full">
+          <p>{{ $t('mint.nftaaMessage') }}</p>
+        </div>
+        <NeoSwitch
+          v-model="form.nftaa"
+          data-testid="create-nftaa-switch"
+        />
+      </NeoField>
+
       <hr class="my-6">
 
       <!-- deposit and balance -->
@@ -334,6 +345,7 @@ const form = reactive({
   copies: 1,
   postfix: false,
   nsfw: false,
+  nftaa: false,
   tags: [],
   royalty: {
     amount: 0,
@@ -436,6 +448,7 @@ const mintAction = computed<ActionMintToken>(() => ({
     selectedCollection: selectedCollection.value || null,
     copies: form.copies,
     nsfw: form.nsfw,
+    nftaa: form.nftaa,
     postfix: form.postfix,
     price: balanceFrom(form.salePrice, decimals.value),
     tags: form.tags,
