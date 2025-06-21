@@ -1,4 +1,4 @@
-export type Prefix = 'ksm' | 'ahk' | 'dot' | 'ahp' | 'ahw' | 'base'
+export type Prefix = 'ksm' | 'ahk' | 'dot' | 'ahp' | 'ahw' | 'base' | 'sub'
 //  | 'ahr'
 // | 'glmr'
 // | 'movr'
