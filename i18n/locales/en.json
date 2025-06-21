@@ -1342,6 +1342,8 @@
         "message": "People will be able to buy your NFT."
       }
     },
+    "nftaa": "NFT as an Account (NFTAA)",
+    "nftaaMessage": "Create address for your NFT, so you can use it as an account.",
     "notRecommendedModify": "Please note that this field is not recommended to be modified as it may lead to misuse and confusion",
     "progress": "In Progress",
     "requiredDeposit": "A deposit of <strong>{0}</strong> is required to create a {1}. Please note, this initial deposit is refundable.",
