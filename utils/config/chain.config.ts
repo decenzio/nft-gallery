@@ -48,9 +48,10 @@ export const chainAssetOf = (prefix: Prefix): AssetItem => {
   }
 }
 
-export const defultTokenChain: Record<string, Prefix> = {
+export const defaultTokenChain: Record<string, Prefix> = {
   KSM: 'ksm',
   DOT: 'dot',
+  UNIT: 'sub',
   // GLMR: 'glmr',
   // MOVR: 'movr',
 }

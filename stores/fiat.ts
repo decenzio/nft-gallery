@@ -9,6 +9,8 @@ interface State {
   }>
 }
 
+const AVAILABLE_TOKENS = ['kusama', 'polkadot', 'ethereum', 'substrate'] as const
+
 export const useFiatStore = defineStore('fiat', {
   state: (): State => ({
     fiatPrice: {
@@ -19,6 +21,9 @@ export const useFiatStore = defineStore('fiat', {
         usd: null,
       },
       ethereum: {
+        usd: null,
+      },
+      substrate: {
         usd: null,
       },
     },
@@ -40,6 +45,8 @@ export const useFiatStore = defineStore('fiat', {
               return state.fiatPrice.kusama.usd
             case 'DOT':
               return state.fiatPrice.polkadot.usd
+            case 'UNIT':
+              return state.fiatPrice.substrate.usd
             case 'ETH':
               return state.fiatPrice.ethereum.usd
             default:
@@ -53,9 +60,7 @@ export const useFiatStore = defineStore('fiat', {
         return
       }
 
-      const prices = await Promise.all(
-        (['kusama', 'polkadot', 'ethereum'] as TokenName[]).map(getPrice),
-      )
+      const prices = await Promise.all(AVAILABLE_TOKENS.map(getPrice))
       prices.forEach((price) => {
         this.fiatPrice = Object.assign({}, this.fiatPrice, price)
       })
