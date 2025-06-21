@@ -90,7 +90,7 @@ async function execUpdateCollectionStatmine({ item, api, executeTransaction, isL
   }
 
   executeTransaction({
-    cb: api.tx.utility.batchAll,
+    cb: api.tx.palletUtility.batchAll,
     arg: [args],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,

@@ -37,7 +37,7 @@ async function execCreateSwapStatmine({ item, api, executeTransaction, isLoading
   )
 
   executeTransaction({
-    cb: api.tx.utility.batchAll,
+    cb: api.tx.palletUtility.batchAll,
     arg: [transactions.flat()],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,

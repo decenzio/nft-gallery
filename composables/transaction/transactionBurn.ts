@@ -42,7 +42,7 @@ function execBurnAssetHub(item: ActionConsume, api: ApiPromise, executeTransacti
   let cb: SubmittableExtrinsicFunction<'promise'>, arg
 
   if (item.nftIds.length > 1) {
-    cb = api.tx.utility.batch
+    cb = api.tx.palletUtility.batch
     arg = [
       item.nftIds.map((nftId) => {
         const { apiCall, params } = getApiCallParams(nftId)
