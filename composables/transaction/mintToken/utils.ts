@@ -1,3 +1,4 @@
+import type { ApiPromise } from '@polkadot/api'
 import type {
   ActionMintToken,
   MintedCollection,
@@ -103,14 +104,16 @@ export const assignIds = <T extends TokenToMint>(
     }
   })
 
-export const lastIndexUsed = async (collection: MintedCollection, api) => {
+export const lastIndexUsed = async (collection: MintedCollection, api: ApiPromise) => {
   const { id, lastIndexUsed } = collection
   const lastOnChainIndex = await getLastIndexUsedOnChain(api, id)
   return Math.max(lastIndexUsed, lastOnChainIndex, 0)
 }
 
-export const getLastIndexUsedOnChain = async (api, collectionId) => {
+export const getLastIndexUsedOnChain = async (api: ApiPromise, collectionId: string) => {
   const collectionItems = await api.query.nfts.item.entries(collectionId)
-  const itemIds = collectionItems.map(([key]) => key.args[1].toNumber())
+  const itemIds = collectionItems.length === 0
+    ? [1]
+    : collectionItems.map(([key]) => key.args[1].toNumber())
   return Math.max(...itemIds)
 }
