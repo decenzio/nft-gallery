@@ -36,7 +36,7 @@ function execAssethubMintDrop({
   isLoading.value = true
 
   executeTransaction({
-    cb: api.tx.palletUtility.batchAll,
+    cb: api.tx.utility.batchAll,
     arg: [args],
   })
 }

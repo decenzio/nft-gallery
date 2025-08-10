@@ -30,7 +30,7 @@ const execAhkOrAhp = (isSingle: boolean, item: ActionList, api) => {
       return cb(...paramResolver(token.nftId, Interaction.LIST, token.price))
     })
 
-    return { cb: api.tx.palletUtility.batchAll, arg: [args] }
+    return { cb: api.tx.utility.batchAll, arg: [args] }
   }
 }
 

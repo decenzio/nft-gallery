@@ -26,6 +26,7 @@ watchEffect(() => {
   nftStore.nftAnimationMimeType = nftAnimationMimeType.value
   nftStore.nftMimeType = nftMimeType.value
   nftStore.abi = abi.value ?? null
+  nftStore.nftaaAddress = nft.value?.attributes?.find(attr => attr.trait === 'nftaa_address')?.value ?? null
 })
 
 definePageMeta({

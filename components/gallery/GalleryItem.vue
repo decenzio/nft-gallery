@@ -54,6 +54,12 @@
                 >
                   {{ title }}
                   <span
+                    v-if="nftaaAddress"
+                    class="rounded-full !bg-k-green px-4 ml-2"
+                  >
+                    NFTAA
+                  </span>
+                  <span
                     v-if="nft?.burned"
                     class="text-k-red"
                   >「🔥」</span>
@@ -201,7 +207,7 @@ const { getTriggerBuySuccess: triggerBuySuccess, getTriggerOfferSuccess: trigger
 const pageViewCount = usePageViews()
 const fiatStore = useFiatStore()
 
-const { getNft: nft, getNftMetadata: nftMetadata, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
+const { getNft: nft, nftaaAddress, getNftMetadata: nftMetadata, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
 const { nftHighestOffer } = useGalleryItem()
 const collection = computed(() => nft.value?.collection)

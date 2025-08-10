@@ -14,6 +14,7 @@ export const useNftStore = defineStore('nft', {
     nftMimeType: '',
     nftAnimation: '',
     nftAnimationMimeType: '',
+    nftaaAddress: null as string | null,
     abi: null as Abi | null,
   }),
 

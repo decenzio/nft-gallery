@@ -23,7 +23,7 @@ export async function execMintCollectionStatemine({
     = item.collection as CollectionToMintStatmine
   const { accountId } = useAuth()
 
-  const cb = api.tx.palletUtility.batchAll
+  const cb = api.tx.utility.batchAll
 
   const { nextCollectionId } = useStatemineNewCollectionId()
   const nextId = await nextCollectionId()

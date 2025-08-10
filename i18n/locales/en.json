@@ -1870,7 +1870,10 @@
       "price": "Price",
       "to": "To"
     },
-    "tabDescription": { "made": "Made By" },
+    "tabDescription": {
+      "made": "Made By",
+      "nftaa": "NFT as an Account (NFTAA)"
+    },
     "tabDetails": {
       "animatedMedia": "Animated Media",
       "blockchain": "Blockchain",

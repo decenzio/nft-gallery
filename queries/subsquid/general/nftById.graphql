@@ -17,6 +17,10 @@ query nftById($id: String!) {
         price
       }
     }
+    attributes {
+      trait
+      value
+    }
     events {
       interaction
       timestamp
@@ -27,9 +31,9 @@ query nftById($id: String!) {
       name
       description
       image
-      animation_url: animationUrl
+      animationUrl
       attributes {
-        key: trait
+        trait
         value
       }
     }

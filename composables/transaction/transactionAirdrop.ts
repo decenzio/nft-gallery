@@ -95,7 +95,7 @@ function execSendAssetHub(item: ActionAirdrop, api, executeTransaction) {
   const arg = argGenerator(item, api)
 
   executeTransaction({
-    cb: api.tx.palletUtility.batchAll,
+    cb: api.tx.utility.batchAll,
     arg: [arg],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,

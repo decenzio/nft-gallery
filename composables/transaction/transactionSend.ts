@@ -42,7 +42,7 @@ function execSendAssetHub(item: ActionSend, api, executeTransaction) {
   })
 
   executeTransaction({
-    cb: api.tx.palletUtility.batchAll,
+    cb: api.tx.utility.batchAll,
     arg: [arg],
     successMessage: item.successMessage,
     errorMessage: item.errorMessage,

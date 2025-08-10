@@ -175,7 +175,7 @@ export async function execMintStatemine({
   const nameInNotifications = getNameInNotifications(item)
 
   executeTransaction({
-    cb: api.tx.palletUtility.batchAll,
+    cb: api.tx.utility.batchAll,
     arg: args,
     successMessage:
         item.successMessage

@@ -29,6 +29,22 @@
           />
         </nuxt-link>
       </div>
+      <div
+        v-if="nftaaAddress"
+        class="mb-3 flex"
+        data-testid="gallery-item-description-tab"
+      >
+        <span class="mr-2">{{ $t('tabs.tabDescription.nftaa') }}:</span>
+        <nuxt-link
+          :to="`/${urlPrefix}/u/${nftaaAddress}`"
+          class="text-k-blue hover:text-k-blue-hover"
+        >
+          <Identity
+            ref="identity"
+            :address="nftaaAddress"
+          />
+        </nuxt-link>
+      </div>
 
       <Markdown
         v-if="nftMetadata"
@@ -245,7 +261,7 @@ import { sanitizeIpfsUrl } from '@/utils/ipfs'
 
 const { urlPrefix } = usePrefix()
 
-const { getNft: nft, getNftMetadata: nftMetadata, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
+const { getNft: nft, nftaaAddress, getNftMetadata: nftMetadata, getNftImage: nftImage, getNftMimeType: nftMimeType, getNftAnimation: nftAnimation, getNftAnimationMimeType: nftAnimationMimeType } = storeToRefs(useNftStore())
 
 const activeTab = ref('0')
 

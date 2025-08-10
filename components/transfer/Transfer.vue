@@ -865,7 +865,7 @@ const getTransferParams = async (
 
   const cb = isSingle
     ? api.tx.balances.transferAllowDeath
-    : api.tx.palletUtility.batch
+    : api.tx.utility.batch
   const arg = isSingle
     ? [
         firstAddress.address as string,
