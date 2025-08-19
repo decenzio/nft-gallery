@@ -184,11 +184,19 @@ export enum DistributionMode {
 
 export type ActionAirdrop = {
   interaction: Interaction.AIRDROP
-  urlPrefix: Prefix
-  addresses: string[]
-  nfts: TokenToSend[]
-  distributionMode: DistributionMode
-  successMessage?: string
+  recipients: { recipient: string, sum: number, id: string, allowEmpty?: boolean }[]
+  urlPrefix: string
+  successMessage?: string | ((blockNumber: string) => string)
+  errorMessage?: string
+}
+
+export type ActionNftaaProxyCall = {
+  interaction: Interaction.NFTAA_PROXY
+  collectionId: string
+  itemId: string
+  call: unknown
+  urlPrefix: string
+  successMessage?: string | ((blockNumber: string) => string)
   errorMessage?: string
 }
 
@@ -375,3 +383,4 @@ export type Actions =
   | ActionMintDrop
   | ActionSwap
   | ActionAirdrop
+  | ActionNftaaProxyCall

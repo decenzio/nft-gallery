@@ -23,6 +23,7 @@ import type {
   ActionCancelSwap,
   ActionAcceptSwap,
   Actions,
+  ActionNftaaProxyCall,
 } from '../transaction/types'
 import { Interaction } from '@/utils/shoppingActions'
 import { getPercentSupportFee } from '@/utils/support'
@@ -75,6 +76,8 @@ export function isActionValid(action: Actions): boolean {
       hasContent(action.collectionId),
     [ShoppingActions.CREATE_SWAP]: (action: ActionSwap) =>
       hasContent(action.offered) && hasContent(action.desired) && action.offered.length === action.desired.length,
+    [Interaction.NFTAA_PROXY]: (action: ActionNftaaProxyCall) =>
+      hasContent(action.collectionId) && hasContent(action.itemId) && hasContent(action.call),
   }
 
   const checker = validityMap[action.interaction]

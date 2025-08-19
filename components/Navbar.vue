@@ -112,6 +112,23 @@
               />
             </div>
           </nuxt-link>
+          <nuxt-link
+            v-if="urlPrefix === 'sub'"
+            to="/sub/nftaa"
+            rel="nofollow"
+          >
+            <div
+              class="navbar-item"
+              data-testid="proxy"
+            >
+              {{ $t('proxy.title') }}
+
+              <KIcon
+                name="i-mdi:abacus"
+                class="text-k-primary ml-1"
+              />
+            </div>
+          </nuxt-link>
 
           <MobileExpandableSection
             v-if="isExplorerVisible"

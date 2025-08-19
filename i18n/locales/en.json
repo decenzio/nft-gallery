@@ -1610,6 +1610,7 @@
     "profileReset": "Profile Reset",
     "waitSeconds": "Wait {0} Seconds"
   },
+  "proxy": { "title": "Proxy" },
   "purchase": "Purchase",
   "qrCode": "QR",
   "query": {

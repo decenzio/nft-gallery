@@ -32,7 +32,7 @@ export const CHAINS: Config<ChainProperties> = {
   ahp: toChainProperty(0, 10, 'DOT', 'https://assethub-polkadot.subscan.io/', 'SUB'),
   base: toChainProperty(42, 18, 'ETH', 'https://basescan.org', 'EVM'),
   ahw: toChainProperty(42, 12, 'WND', 'https://assethub-westend.subscan.io/', 'EVM'),
-  sub: toChainProperty(2, 12, 'UNIT', 'ws://localhost:9920/', 'SUB'),
+  sub: toChainProperty(42, 12, 'UNIT', 'ws://localhost:9920/', 'SUB'),
   // ahr: toChainProperty(42, 12, 'ROC', 'https://rockmine.subscan.io/'),
   // movr: toChainProperty(1285, 18, 'MOVR', 'https://moonriver.subscan.io/'),
   // glmr: toChainProperty(1284, 18, 'GLMR', 'https://moonbeam.subscan.io/'),
