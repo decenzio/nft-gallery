@@ -14,6 +14,7 @@ export const useNftStore = defineStore('nft', {
     nftMimeType: '',
     nftAnimation: '',
     nftAnimationMimeType: '',
+    nftaaAddress: null as string | null,
     abi: null as Abi | null,
   }),
 
@@ -24,6 +25,7 @@ export const useNftStore = defineStore('nft', {
     getNftMimeType: state => state.nftMimeType,
     getNftAnimation: state => state.nftAnimation,
     getNftAnimationMimeType: state => state.nftAnimationMimeType,
+    getNftaaAddress: state => state.nftaaAddress,
     getAbi: state => state.abi,
   },
 })

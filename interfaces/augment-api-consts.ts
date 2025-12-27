@@ -18,7 +18,7 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The slot duration Aura should run with, expressed in milliseconds.
        * The effective value of this type should not change while the chain is running.
-       * 
+       *
        * For backwards compatibility either use [`MinimumPeriodTimesTwo`] or a const.
        **/
       slotDuration: u64 & AugmentedConst<ApiType>;
@@ -30,12 +30,12 @@ declare module '@polkadot/api-base/types/consts' {
     balances: {
       /**
        * The minimum amount required to keep an account open. MUST BE GREATER THAN ZERO!
-       * 
+       *
        * If you *really* need it to be zero, you can enable the feature `insecure_zero_ed` for
        * this pallet. However, you do so at your own risk: this will open up a major DoS vector.
        * In case you have multiple sources of provider references, you may also get unexpected
        * behaviour if you set this to zero.
-       * 
+       *
        * Bottom line: Do yourself a favour and make it at least one!
        **/
       existentialDeposit: u128 & AugmentedConst<ApiType>;
@@ -46,13 +46,13 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The maximum number of locks that should exist on an account.
        * Not strictly enforced, but used for weight estimation.
-       * 
+       *
        * Use of locks is deprecated in favour of freezes. See `https://github.com/paritytech/substrate/pull/12951/`
        **/
       maxLocks: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of named reserves that can exist on an account.
-       * 
+       *
        * Use of reserves is deprecated in favour of holds. See `https://github.com/paritytech/substrate/pull/12951/`
        **/
       maxReserves: u32 & AugmentedConst<ApiType>;
@@ -65,7 +65,7 @@ declare module '@polkadot/api-base/types/consts' {
       kickThreshold: u32 & AugmentedConst<ApiType>;
       /**
        * Maximum number of candidates that we should have.
-       * 
+       *
        * This does not take into account the invulnerables.
        **/
       maxCandidates: u32 & AugmentedConst<ApiType>;
@@ -95,7 +95,7 @@ declare module '@polkadot/api-base/types/consts' {
     messageQueue: {
       /**
        * The size of the page; this implies the maximum message size which can be sent.
-       * 
+       *
        * A good value depends on the expected message sizes, their weights, the weight that is
        * available for processing them and the maximal needed message size. The maximal message
        * size is slightly lower than this as defined by [`MaxMessageLenOf`].
@@ -105,7 +105,7 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum amount of weight (if any) to be used from remaining weight `on_idle` which
        * should be provided to the message queue for servicing enqueued items `on_idle`.
        * Useful for parachains to process messages at the same block they are received.
-       * 
+       *
        * If `None`, it will not call `ServiceQueues::service_queues` in `on_idle`.
        **/
       idleMaxServiceWeight: Option<SpWeightsWeightV2Weight> & AugmentedConst<ApiType>;
@@ -118,7 +118,7 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The amount of weight (if any) which should be provided to the message queue for
        * servicing enqueued items `on_initialize`.
-       * 
+       *
        * This may be legitimately `None` in the case that you will call
        * `ServiceQueues::service_queues` manually or set [`Self::IdleMaxServiceWeight`] to have
        * it run in `on_idle`.
@@ -192,7 +192,7 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
-    palletUtility: {
+    utility: {
       /**
        * The limit on the number of batched calls.
        **/
@@ -207,6 +207,17 @@ declare module '@polkadot/api-base/types/consts' {
        * Returns the parachain ID we are running with.
        **/
       selfParaId: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    polkadotXcm: {
+      /**
+       * The latest supported version that we advertise. Generally just set it to
+       * `pallet_xcm::CurrentXcmVersion`.
+       **/
+      advertisedXcmVersion: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -231,7 +242,7 @@ declare module '@polkadot/api-base/types/consts' {
       dbWeight: SpWeightsRuntimeDbWeight & AugmentedConst<ApiType>;
       /**
        * The designated SS58 prefix of this chain.
-       * 
+       *
        * This replaces the "ss58Format" property declared in the chain spec. Reason is
        * that the runtime should know about the prefix in order to make use of it as
        * an identifier of the chain.
@@ -249,7 +260,7 @@ declare module '@polkadot/api-base/types/consts' {
     timestamp: {
       /**
        * The minimum period between blocks.
-       * 
+       *
        * Be aware that this is different to the *expected* period that the block production
        * apparatus provides. Your chosen consensus system will generally work with this to
        * determine a sensible block time. For example, in the Aura pallet it will be double this
@@ -265,21 +276,21 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * A fee multiplier for `Operational` extrinsics to compute "virtual tip" to boost their
        * `priority`
-       * 
+       *
        * This value is multiplied by the `final_fee` to obtain a "virtual tip" that is later
        * added to a tip component in regular `priority` calculations.
        * It means that a `Normal` transaction can front-run a similarly-sized `Operational`
        * extrinsic (with no tip), by including a tip value greater than the virtual tip.
-       * 
+       *
        * ```rust,ignore
        * // For `Normal`
        * let priority = priority_calc(tip);
-       * 
+       *
        * // For `Operational`
        * let virtual_tip = (inclusion_fee + tip) * OperationalFeeMultiplier;
        * let priority = priority_calc(tip + virtual_tip);
        * ```
-       * 
+       *
        * Note that since we use `final_fee` the multiplier applies also to the regular `tip`
        * sent with the transaction. So, not only does the transaction get a priority bump based
        * on the `inclusion_fee`, but we also amplify the impact of tips applied to `Operational`
@@ -294,7 +305,7 @@ declare module '@polkadot/api-base/types/consts' {
     xcmpQueue: {
       /**
        * Maximal number of outbound XCMP channels that can have messages queued at the same time.
-       * 
+       *
        * If this is reached, then no further messages can be sent to channels that do not yet
        * have a message queued. This should be set to the expected maximum of outbound channels
        * which is determined by [`Self::ChannelInfo`]. It is important to set this large enough,
@@ -305,7 +316,7 @@ declare module '@polkadot/api-base/types/consts' {
       maxActiveOutboundChannels: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of inbound XCMP channels that can be suspended simultaneously.
-       * 
+       *
        * Any further channel suspensions will fail and messages may get dropped without further
        * notice. Choosing a high value (1000) is okay; the trade-off that is described in
        * [`InboundXcmpSuspended`] still applies at that scale.
@@ -313,7 +324,7 @@ declare module '@polkadot/api-base/types/consts' {
       maxInboundSuspended: u32 & AugmentedConst<ApiType>;
       /**
        * The maximal page size for HRMP message pages.
-       * 
+       *
        * A lower limit can be set dynamically, but this is the hard-limit for the PoV worst case
        * benchmarking. The limit for the size of a message is slightly below this, since some
        * overhead is incurred for encoding the format.

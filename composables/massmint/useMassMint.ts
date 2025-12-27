@@ -1,3 +1,5 @@
+import type { ApiPromise } from '@polkadot/api'
+import { $purifyOne } from '@kodadot1/minipfs'
 import {
   createTokensToMint,
   subscribeToCollectionLengthUpdates,
@@ -6,7 +8,6 @@ import { Interaction } from '@/utils/shoppingActions'
 import type { NFTToMint } from '@/components/massmint/types'
 import { Status } from '@/components/massmint/types'
 import type { MintedCollection } from '@/composables/transaction/types'
-import { fetchOdaCollection } from '@/services/oda'
 
 export const statusTranslation = (status?: Status): string => {
   const { $i18n } = useNuxtApp()
@@ -32,10 +33,45 @@ export const statusClass = (status?: Status) => {
   return status ? statusMap[status] : ''
 }
 
+const fetchCollection = async (api: ApiPromise, id: string) => {
+  const token = Number(id)
+  let metadataJson: { [key: string]: any, name: string } | null = null
+
+  const [queryCollectionConfigRes, queryCollectionRes, queryCollectionMetadataRes]
+  = await Promise.all([
+    api.query.nfts.collectionConfigOf(token),
+    api.query.nfts.collection(token),
+    api.query.nfts.collectionMetadataOf(token),
+  ])
+  const queryCollectionConfig = queryCollectionConfigRes.isSome ? queryCollectionConfigRes.unwrap() : null
+  const queryCollection = queryCollectionRes.isSome ? queryCollectionRes.unwrap() : null
+  const ipfsUri = queryCollectionMetadataRes.isSome ? queryCollectionMetadataRes.unwrap().data : null
+
+  try {
+    if (ipfsUri) {
+      const metadata = await fetch($purifyOne(ipfsUri, 'kodadot'))
+      metadataJson = (await metadata.json()) as {
+        [key: string]: any
+        name: string
+      }
+    }
+  }
+  catch (error) {
+    console.error('Collection metadata has invalid ipfs uri', error)
+  }
+
+  const supply = queryCollectionConfig?.max_supply || Number.MAX_SAFE_INTEGER
+
+  return {
+    metadata: metadataJson || { name: '' },
+    supply: supply.toString(),
+    claimed: queryCollection?.items.toString() || '0',
+  }
+}
+
 export const useCollectionForMint = () => {
   const collections = ref<MintedCollection[]>()
   const { accountId } = useAuth()
-  const { urlPrefix } = usePrefix()
   const { apiInstance } = useApi()
   const isLoading = ref(true)
 
@@ -52,7 +88,7 @@ export const useCollectionForMint = () => {
     const queryCollections = await api.query.nfts.collectionAccount.keys(accountId.value) // get owned collections
     const ids = queryCollections.map(id => id.toHuman()).map(async (data) => {
       const id = data?.[1]
-      const collection = await fetchOdaCollection(urlPrefix.value, id)
+      const collection = await fetchCollection(api, id)
       const queryCollectionItems = await api.query.nfts.item.entries(id) // get minted items
       const queryCollectionMetadata = await api.query.nfts.collectionMetadataOf(id) // get collection metadata
 

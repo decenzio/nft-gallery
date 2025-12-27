@@ -57,6 +57,7 @@ import { availablePrefixes } from '@/utils/chain'
 import { calculateBalanceUsdValue } from '@/utils/format/balance'
 import type { AutoTeleportAction } from '@/composables/autoTeleport/types'
 import { calculateFees } from '@/composables/transaction/mintToken/utils'
+import type { Token } from '@/utils/coinprice'
 
 export type NftInformation = {
   file: Blob | null
@@ -113,7 +114,7 @@ const isNFT = computed(
 const blockchain = computed(() =>
   availablePrefixes().find(prefix => prefix.value === urlPrefix.value),
 )
-const chainSymbol = computed(() => props.nftInformation.paidToken?.tokenSymbol)
+const chainSymbol = computed(() => props.nftInformation.paidToken?.tokenSymbol as Token)
 const decimals = computed(() => props.nftInformation.paidToken?.tokenDecimals)
 const tokenPrice = computed(() =>
   Number(fiatStore.getCurrentTokenValue(chainSymbol.value) ?? 0),
@@ -126,9 +127,7 @@ const convertUSDFeeToToken = (fee: number) => (fee / tokenPrice.value) * Math.po
 const kodadotFee = computed(() => convertUSDFeeToToken(kodaUSDFee))
 const carbonlessFee = computed(() => convertUSDFeeToToken(carbonlessUSDFee.value))
 
-const totalFee = computed(() =>
-  deposit.value + carbonlessFee.value + kodadotFee.value + networkFee.value,
-)
+const totalFee = computed(() => deposit.value + carbonlessFee.value + kodadotFee.value + networkFee.value)
 
 const extendedInformation = computed(() => ({
   ...props.nftInformation,

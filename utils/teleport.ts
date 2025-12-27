@@ -13,6 +13,7 @@ export enum Chain {
   ASSETHUBPOLKADOT = 'AssetHubPolkadot',
   POLKADOT = 'Polkadot',
   BASE = 'Base',
+  SUBSTRATE = 'Substrate',
 }
 
 export type TeleportChain = {
@@ -44,6 +45,7 @@ export const chainToPrefixMap: Record<Chain, Prefix> = {
   [Chain.ASSETHUBPOLKADOT]: 'ahp',
   [Chain.POLKADOT]: 'dot',
   [Chain.BASE]: 'base',
+  [Chain.SUBSTRATE]: 'sub',
 }
 
 export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
@@ -52,6 +54,7 @@ export const prefixToChainMap: Partial<Record<Prefix, Chain>> = {
   ahp: Chain.ASSETHUBPOLKADOT,
   dot: Chain.POLKADOT,
   base: Chain.BASE,
+  sub: Chain.SUBSTRATE,
 }
 
 const getApi = (chain: Chain) => {
@@ -134,7 +137,7 @@ export const getTransactionFee = async ({
   return totalFee
 }
 
-export type Currency = 'KSM' | 'DOT' | 'ETH'
+export type Currency = 'KSM' | 'DOT' | 'ETH' | 'UNIT'
 
 export const getChainCurrency = (chain: Chain): Currency => {
   switch (chain) {
@@ -144,6 +147,8 @@ export const getChainCurrency = (chain: Chain): Currency => {
     case Chain.POLKADOT:
     case Chain.ASSETHUBPOLKADOT:
       return 'DOT'
+    case Chain.SUBSTRATE:
+      return 'UNIT'
   }
 }
 
@@ -153,4 +158,5 @@ export const chainToPrecisionMap: Record<Chain, number> = {
   [Chain.ASSETHUBPOLKADOT]: 5,
   [Chain.BASE]: 5,
   [Chain.POLKADOT]: 4,
+  [Chain.SUBSTRATE]: 4,
 }

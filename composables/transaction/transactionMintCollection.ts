@@ -1,6 +1,8 @@
 import type { MintCollectionParams } from './types'
 import { execMintCollectionStatemine } from './mintCollection/transactionMintCollectionStatemine'
 
+const SUPPORTED_PREFIXES = ['ahk', 'ahp', 'sub']
+
 export function execMintCollection({
   item,
   api,
@@ -9,7 +11,9 @@ export function execMintCollection({
   status,
 }: MintCollectionParams) {
   // item.urlPrefix === 'ahr'
-  if (item.urlPrefix === 'ahk' || item.urlPrefix === 'ahp') {
+  console.log('execMintCollection')
+  if (SUPPORTED_PREFIXES.includes(item.urlPrefix)) {
+    console.log('Executing mint collection for Ahk/Ahp/Sub')
     return execMintCollectionStatemine({
       item,
       api,

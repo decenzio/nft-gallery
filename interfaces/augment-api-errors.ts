@@ -167,7 +167,7 @@ declare module '@polkadot/api-base/types/errors' {
       Queued: AugmentedError<ApiType>;
       /**
        * The queue is paused and no message can be executed from it.
-       * 
+       *
        * This can change at any time and may resolve in the future by re-trying.
        **/
       QueuePaused: AugmentedError<ApiType>;
@@ -177,7 +177,7 @@ declare module '@polkadot/api-base/types/errors' {
       RecursiveDisallowed: AugmentedError<ApiType>;
       /**
        * This message is temporarily unprocessable.
-       * 
+       *
        * Such errors are expected, but not guaranteed, to resolve themselves eventually through
        * retrying.
        **/
@@ -395,7 +395,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    palletUtility: {
+    utility: {
       /**
        * Too many calls batched.
        **/
@@ -442,6 +442,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AccountNotSovereign: AugmentedError<ApiType>;
       /**
+       * The alias to remove authorization for was not found.
+       **/
+      AliasNotFound: AugmentedError<ApiType>;
+      /**
        * The location is invalid since it already has a subscription from us.
        **/
       AlreadySubscribed: AugmentedError<ApiType>;
@@ -470,6 +474,10 @@ declare module '@polkadot/api-base/types/errors' {
        * The assets to be sent are empty.
        **/
       Empty: AugmentedError<ApiType>;
+      /**
+       * Expiry block number is in the past.
+       **/
+      ExpiresInPast: AugmentedError<ApiType>;
       /**
        * The operation required fees to be paid which the initiator could not meet.
        **/
@@ -519,6 +527,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Too many assets have been attempted for transfer.
        **/
       TooManyAssets: AugmentedError<ApiType>;
+      /**
+       * Too many locations authorized to alias origin.
+       **/
+      TooManyAuthorizedAliases: AugmentedError<ApiType>;
       /**
        * The asset owner has too many locks on the asset.
        **/
@@ -584,7 +596,7 @@ declare module '@polkadot/api-base/types/errors' {
       CallFiltered: AugmentedError<ApiType>;
       /**
        * Failed to extract the runtime version from the new runtime.
-       * 
+       *
        * Either calling `Core_version` or decoding `RuntimeVersion` failed.
        **/
       FailedToExtractRuntimeVersion: AugmentedError<ApiType>;

@@ -7,7 +7,7 @@ export function useStatemineNewCollectionId() {
       const api = await apiInstance.value
       const result = await api.query.nfts.nextCollectionId()
 
-      return result.unwrap().toNumber()
+      return result.isSome ? result.unwrap().toNumber() : 1
     }
     catch (error) {
       $consola.error('Error getting collection id', error)

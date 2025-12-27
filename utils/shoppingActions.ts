@@ -21,6 +21,7 @@ export enum Interaction {
   BURN = 'BURN',
   DESTROY = 'DESTROY',
   AIRDROP = 'AIRDROP',
+  NFTAA_PROXY = 'NFTAA_PROXY',
 }
 
 enum OfferActions {

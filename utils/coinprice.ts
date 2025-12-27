@@ -40,6 +40,13 @@ type GetPrice = {
 export const getPrice = async (id: string): Promise<GetPrice> => {
   const emptyPrice = { [id]: { usd: 0 } }
 
+  if (id === 'substrate') {
+    // TODO: handle substrate price
+    return {
+      substrate: { usd: 1 }, // placeholder value
+    }
+  }
+
   // fetch kodaprice
   const dataKodaprice = await kodapriceApi(`/price/${id}`)
   if (status === 200) {
@@ -60,13 +67,14 @@ export const getPrice = async (id: string): Promise<GetPrice> => {
   return emptyPrice
 }
 
-export type Token = 'KSM' | 'DOT' | 'ETH'
-export type TokenName = 'kusama' | 'polkadot' | 'ethereum'
+export type Token = 'KSM' | 'DOT' | 'ETH' | 'UNIT'
+export type TokenName = 'kusama' | 'polkadot' | 'ethereum' | 'substrate'
 // tokenMap but reversed
 const tokenMap: Record<Token, TokenName> = {
   KSM: 'kusama',
   DOT: 'polkadot',
   ETH: 'ethereum',
+  UNIT: 'substrate',
 }
 
 export const getApproximatePriceOf = async (id: string): Promise<number> => {

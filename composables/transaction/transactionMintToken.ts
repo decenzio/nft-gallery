@@ -1,9 +1,10 @@
-import type { Prefix } from '@kodadot1/static'
 import type { MintTokenParams, SubstrateMintTokenParams } from './types'
 import { execMintStatemine } from './mintToken/transactionMintStatemine'
 
+const SUPPORTED_PREFIXES = ['ahk', 'ahp', 'sub']
+
 export function execMintToken({ item, ...params }: MintTokenParams) {
-  if (isAssetHub(item.urlPrefix as Prefix)) {
+  if (SUPPORTED_PREFIXES.includes(item.urlPrefix)) {
     return execMintStatemine({
       item,
       ...params,

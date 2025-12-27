@@ -25,7 +25,7 @@ export default function (prefix: ComputedRef<Prefix>) {
   const chainSymbol = ref('')
 
   const chain = computed(() =>
-    chainPropListOf(chainSymbol.value.toLowerCase() as Prefix),
+    chainPropListOf(prefix.value),
   )
 
   const isEnabled = computed(() => prefix.value && isSub(prefix.value))

@@ -1,5 +1,6 @@
 import type { ApiPromise } from '@polkadot/api'
-import type { ActionMintToken, MintedCollection, TokenToMint } from '../types'
+import type { AnyNumber } from '@polkadot/types/types'
+import type { ActionMintToken, MintedCollection, SubstrateMintTokenParams, TokenToMint } from '../types'
 import { constructMeta } from './constructMeta'
 import type {
   Id } from './utils'
@@ -7,8 +8,8 @@ import {
   assignIds,
   calculateFees,
   expandCopies,
+  getNameInNotifications,
   lastIndexUsed,
-  transactionFactory,
 } from './utils'
 import { constructDirectoryMeta } from './constructDirectoryMeta'
 import type { SupportTokens } from '@/utils/support'
@@ -23,21 +24,27 @@ interface BuildTokenTxsParams {
 
 const buildTokenTxs = ({ token, metadata, api }: BuildTokenTxsParams) => {
   const { accountId } = useAuth()
-  const collectionId = token.selectedCollection?.id
-  const { price, id: nextId, hasRoyalty, royalty } = token
-  const create = api.tx.nfts.mint(
+  const collectionId = token.selectedCollection?.id as AnyNumber
+  const { price, id: nextId, hasRoyalty, royalty, nftaa } = token
+
+  const palletBase = nftaa ? api.tx.nftaa : api.tx.nfts
+  const create = palletBase.mint(
     collectionId,
     nextId,
     accountId.value,
     undefined,
   )
-  const meta = api.tx.nfts.setMetadata(collectionId, nextId, metadata)
 
   const list
     = Number(price) > 0
-      ? [api.tx.nfts.setPrice(collectionId, nextId, price, undefined)]
+      ? [api.tx.nfts.setPrice(collectionId, nextId, price as AnyNumber, null)]
       : []
-  const txs = [create, meta, ...list]
+  const txs = [create, ...list]
+  const meta = metadata ? api.tx.nfts.setMetadata(collectionId, nextId, metadata) : null
+
+  if (meta) {
+    txs.push(meta)
+  }
 
   if (royalty && isRoyaltyValid(royalty) && hasRoyalty) {
     const setRoyaltyAmount = api.tx.nfts.setAttribute(
@@ -45,7 +52,7 @@ const buildTokenTxs = ({ token, metadata, api }: BuildTokenTxsParams) => {
       nextId,
       'ItemOwner',
       'royalty',
-      royalty.amount,
+      royalty.amount.toString(),
     )
     const setRoyaltyRecipient = api.tx.nfts.setAttribute(
       collectionId,
@@ -115,7 +122,7 @@ export const getSupportInteraction = (
   return canSupport(api, enabledFees, totalFees, tokenSymbol)
 }
 
-const getArgs = async (item: ActionMintToken, api: ApiPromise) => {
+const _getArgs = async (item: ActionMintToken, api: ApiPromise) => {
   const { enabledFees, feeMultiplier, token: tokenSymbol } = calculateFees()
   const supportInteraction = await getSupportInteraction(
     item,
@@ -140,4 +147,45 @@ const getArgs = async (item: ActionMintToken, api: ApiPromise) => {
   return [[...arg.flat(), ...supportInteraction]]
 }
 
-export const execMintStatemine = transactionFactory(getArgs)
+// export const execMintStatemine = transactionFactory(getArgs)
+export async function execMintStatemine({
+  item,
+  api,
+  executeTransaction,
+  isLoading,
+  status,
+}: SubstrateMintTokenParams) {
+  const { $i18n } = useNuxtApp()
+
+  isLoading.value = true
+  status.value = 'loader.ipfs'
+
+  const isMultipleTokens = Array.isArray(item.token) && item.token.length > 1
+
+  const tokenTxsArgs = isMultipleTokens
+    ? await handleMultipleTokens(item, api)
+    : await handleSingleToken(item, api)
+
+  const arg = await Promise.all(
+    tokenTxsArgs.map(({ token, metadata }) =>
+      buildTokenTxs({ token, metadata, api }),
+    ),
+  )
+  const args = [arg.flat()]
+  const nameInNotifications = getNameInNotifications(item)
+
+  executeTransaction({
+    cb: api.tx.utility.batchAll,
+    arg: args,
+    successMessage:
+        item.successMessage
+        || (blockNumber =>
+          $i18n.t('mint.mintNFTSuccess', {
+            name: nameInNotifications,
+            block: blockNumber,
+          })),
+    errorMessage:
+        item.errorMessage
+        || $i18n.t('mint.errorCreateNewNft', { name: nameInNotifications }),
+  })
+}

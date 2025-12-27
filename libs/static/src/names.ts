@@ -7,6 +7,7 @@ export const NAMES: Record<Prefix, string> = {
   ahp: 'PolkadotHub',
   base: 'Base',
   ahw: 'WestendHub',
+  sub: 'Substrate',
   // ahr: 'RococoHub',
   // glmr: 'Moonbeam [Beta]',
   // movr: 'Moonriver [Beta]',

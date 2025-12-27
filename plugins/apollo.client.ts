@@ -5,6 +5,7 @@ export default defineNuxtPlugin(() => {
   const customUri = new HttpLink({
     uri: ({ getContext }) => {
       const { endpoint } = getContext()
+      console.log('Using GraphQL endpoint:', endpoint)
       return GRAPHQL_ENDPOINTS[endpoint as Prefix || 'ahp']
     },
   })

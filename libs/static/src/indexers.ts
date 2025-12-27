@@ -9,12 +9,13 @@ type SquidEndpoint =
   | `http://${string}`
 
 export const INDEXERS: Config<SquidEndpoint> = {
-  ksm: 'http://localhost:4350/graphql', // DEV: show KusamaHub
-  ahk: 'http://localhost:4350/graphql',
+  ksm: 'https://ahk.gql.api.kodadot.xyz/', // DEV: show KusamaHub
+  ahk: 'https://ahk.gql.api.kodadot.xyz/',
   ahp: 'https://ahp.gql.api.kodadot.xyz/',
   dot: 'https://ahp.gql.api.kodadot.xyz/', // DEV: show PolkadotHub
   base: 'https://kodadot.squids.live/basick/graphql',
   ahw: 'https://kodadot.squids.live/basick/graphql', // TODO: deploy
+  sub: 'http://localhost:4350/graphql',
   // ahr: 'https://squid.subsquid.io/snack/graphql',
   // movr: 'https://squid.subsquid.io/antick/v/001-rc0/graphql',
   // glmr: 'https://squid.subsquid.io/click/v/002/graphql',

@@ -18,8 +18,7 @@ export async function execMintCollectionStatemine({
 
   isLoading.value = true
   status.value = 'loader.ipfs'
-
-  const metadata = await constructMeta(item)
+  const metadata = item.urlPrefix === 'sub' ? null : await constructMeta(item)
   const { nftCount, royalty, hasRoyalty }
     = item.collection as CollectionToMintStatmine
   const { accountId } = useAuth()
@@ -82,17 +81,21 @@ export async function execMintCollectionStatemine({
   const arg = [
     [
       api.tx.nfts.create(...createArgs),
-      api.tx.nfts.setCollectionMetadata(nextId, metadata),
+      metadata ? api.tx.nfts.setCollectionMetadata(nextId, metadata) : undefined,
       ...maxSupplyArg,
-      ...(await canSupport(
-        api,
-        enabledFees,
-        feeMultiplier,
-        token as SupportTokens,
-      )),
+      ...(item.urlPrefix === 'sub'
+        ? []
+        : await canSupport(
+          api,
+          enabledFees,
+          feeMultiplier,
+          token as SupportTokens,
+        )),
       ...royaltyArgs,
     ],
   ]
+
+  console.log('[MINT] Executing transaction for minting collection', nextId)
 
   executeTransaction({
     cb,
@@ -100,4 +103,6 @@ export async function execMintCollectionStatemine({
     successMessage: successCb,
     errorMessage: errorCb,
   })
+
+  console.log('[MINT] Transaction for minting collection executed')
 }

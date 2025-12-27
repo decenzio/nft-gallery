@@ -378,7 +378,7 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
-    palletUtility: {
+    utility: {
       /**
        * Batch of dispatches completed fully with no error.
        **/
@@ -449,6 +449,19 @@ declare module '@polkadot/api-base/types/events' {
     };
     polkadotXcm: {
       /**
+       * `target` removed alias authorization for `aliaser`.
+       **/
+      AliasAuthorizationRemoved: AugmentedEvent<ApiType, [aliaser: StagingXcmV5Location, target: StagingXcmV5Location], { aliaser: StagingXcmV5Location, target: StagingXcmV5Location }>;
+      /**
+       * An `aliaser` location was authorized by `target` to alias it, authorization valid until
+       * `expiry` block number.
+       **/
+      AliasAuthorized: AugmentedEvent<ApiType, [aliaser: StagingXcmV5Location, target: StagingXcmV5Location, expiry: Option<u64>], { aliaser: StagingXcmV5Location, target: StagingXcmV5Location, expiry: Option<u64> }>;
+      /**
+       * `target` removed all alias authorizations.
+       **/
+      AliasesAuthorizationsRemoved: AugmentedEvent<ApiType, [target: StagingXcmV5Location], { target: StagingXcmV5Location }>;
+      /**
        * Some assets have been claimed from an asset trap
        **/
       AssetsClaimed: AugmentedEvent<ApiType, [hash_: H256, origin: StagingXcmV5Location, assets: XcmVersionedAssets], { hash_: H256, origin: StagingXcmV5Location, assets: XcmVersionedAssets }>;
@@ -473,7 +486,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Expected query response has been received but the expected querier location placed in
        * storage by this runtime previously cannot be decoded. The query remains registered.
-       * 
+       *
        * This is unexpected (since a location placed in storage in a previously executing
        * runtime should be readable prior to query timeout) and dangerous since the possibly
        * valid response will be dropped. Manual governance intervention is probably going to be
@@ -489,7 +502,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Expected query response has been received but the expected origin location placed in
        * storage by this runtime previously cannot be decoded. The query remains registered.
-       * 
+       *
        * This is unexpected (since a location placed in storage in a previously executing
        * runtime should be readable prior to query timeout) and dangerous since the possibly
        * valid response will be dropped. Manual governance intervention is probably going to be
@@ -562,7 +575,7 @@ declare module '@polkadot/api-base/types/events' {
       UnexpectedResponse: AugmentedEvent<ApiType, [origin: StagingXcmV5Location, queryId: u64], { origin: StagingXcmV5Location, queryId: u64 }>;
       /**
        * An XCM version change notification message has been attempted to be sent.
-       * 
+       *
        * The cost of sending it (borne by the chain) is included.
        **/
       VersionChangeNotified: AugmentedEvent<ApiType, [destination: StagingXcmV5Location, result: u32, cost: StagingXcmV5AssetAssets, messageId: U8aFixed], { destination: StagingXcmV5Location, result: u32, cost: StagingXcmV5AssetAssets, messageId: U8aFixed }>;

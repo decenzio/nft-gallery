@@ -19,6 +19,7 @@ import { execMintCollection } from './transaction/transactionMintCollection'
 import { execUpdateCollection } from './transaction/transactionUpdateCollection'
 import { execSetNftMetadata } from './transaction/transactionSetNftMetadata'
 import { execAirdropTx } from './transaction/transactionAirdrop'
+import { execNftaaProxyCall } from './transaction/transactionNftaaProxyCall'
 import type {
   ActionAcceptOffer,
   ActionBuy,
@@ -35,6 +36,7 @@ import type {
   ActionUpdateCollection,
   ActionSetNftMetadata,
   ActionCancelOffer,
+  ActionNftaaProxyCall,
   Actions,
   ExecuteEvmTransactionParams,
   ExecuteSubstrateTransactionParams,
@@ -279,6 +281,8 @@ export const executeAction = ({
         isLoading,
         status,
       }),
+    [Interaction.NFTAA_PROXY]: () =>
+      execNftaaProxyCall(item as ActionNftaaProxyCall, api as ApiPromise, executeTransaction),
   }
 
   if (!isActionValid(item)) {
